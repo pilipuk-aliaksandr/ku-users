@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserService {
     // this method ask for input filter parametr to users by the age
@@ -55,5 +57,37 @@ public class UserService {
                 .filter(user -> genderFilterParameter.equals(user.getGender()))
                 .toList();
         return filterList;
+    }
+
+    public static Map<String, List<User>> mapUsersByCountry (List<User> users) {
+        Map<String, List<User>> resultMap = new HashMap<>();
+        for (User user : users) {
+            if (resultMap.containsKey(user.getCountry())) {
+                List<User> userListByCountry = resultMap.get(user.getCountry());
+                userListByCountry.add(user);
+                resultMap.put(user.getCountry(), userListByCountry);
+            } else {
+                List<User> userListByCountry = new ArrayList<>();
+                userListByCountry.add(user);
+                resultMap.put(user.getCountry(), userListByCountry);
+            }
+        }
+        return resultMap;
+    }
+
+    public static Map<String, List<User>> mapUsersByGender (List<User> users) {
+        Map<String, List<User>> resultMap = new HashMap<>();
+        for (User user : users) {
+            if (resultMap.containsKey(user.getGender())) {
+                List<User> userListByGender = resultMap.get(user.getGender());
+                userListByGender.add(user);
+                resultMap.put(user.getGender(), userListByGender);
+            } else {
+                List<User> userListByGender = new ArrayList<>();
+                userListByGender.add(user);
+                resultMap.put(user.getGender(), userListByGender);
+            }
+        }
+        return resultMap;
     }
 }
